@@ -1,22 +1,33 @@
 <script setup lang="ts">
+import ListItem from "./components/ListItem.vue";
 import { ref } from "vue";
-const firstInput = ref(22);
-const secondInput = ref("");
-function onChangeInput(event) {
-  console.log(event.target.value);
-  console.log(firstInput.value);
 
-  firstInput.value = event.target.value;
+let items = ref([
+  { id: 1, title: "Buy bread", isChecked: false },
+  { id: 2, title: "Buy sausage", isChecked: false },
+  { id: 3, title: "Buy butter", isChecked: false },
+  { id: 4, title: "Buy milk", isChecked: false },
+]);
+
+let str = ref("Moscow");
+
+function removeElement(id) {
+  items.value = items.value.filter((item) => item.id !== id);
+}
+
+function showAlert() {
+  alert("Hello");
 }
 </script>
 
 <template>
-  <div>
-    <form @submit.prevent="onChangeInput">
-      <input type="text" :value="firstInput" @change="onChangeInput($event)" />
-      <input v-model="secondInput" />
-      <button>Добавить</button>
-    </form>
+  <div v-for="item in items" :key="item.id">
+    <ListItem
+      :todoItem="item"
+      :todoStr="str"
+      @deleteElement="removeElement"
+      @hello="showAlert"
+    />
   </div>
 </template>
 
